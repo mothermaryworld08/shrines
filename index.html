@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="referrer" content="no-referrer"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mother Mary World — Marian Shrines & Devotions Worldwide</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -729,13 +728,26 @@ footer{background:#1A1A1A;color:rgba(255,255,255,.65);padding:3rem 2rem 2rem;tex
   100%{transform:translateY(-120px) rotate(360deg) scale(1.1);opacity:0;}
 }
 
-/* ── IMAGE SECTIONS VISIBLE ── */
+/* ── IMAGE SECTIONS HIDDEN ── */
 .showcase-card-img-container,
-.shrine-card-img-wrap { display: block; }
-.showcase-card-img { opacity: 0; transition: opacity .4s; }
-.showcase-card-img.img-loaded { opacity: 1; }
-.shrine-card-thumb { opacity: 0; transition: opacity .4s; }
-.shrine-card-thumb.img-loaded { opacity: 1; }
+.shrine-card-img-wrap,
+.showcase-card-img-placeholder,
+.shrine-card-thumb-placeholder,
+.shrine-card-thumb { display: none !important; height: 0 !important; }
+
+/* ── SHOWCASE CARD WITHOUT IMAGE — clean text card ── */
+.showcase-card {
+  border-top: 3px solid var(--gold) !important;
+}
+.showcase-card-body {
+  padding: 1.5rem 1.4rem 1.6rem !important;
+}
+
+/* ── SHRINE LISTING CARD WITHOUT IMAGE — cleaner padding ── */
+.shrine-card .shrine-card-loc {
+  padding-top: 1.3rem !important;
+  border-top: 3px solid rgba(200,152,42,.35) !important;
+}
 
 /* ══════════════════════════════════════════════════════
    SACRED ORB (replaces candle)
@@ -1937,7 +1949,7 @@ function renderShrineListing() {
         <span class="country-shrine-count">${data.shrines.length} ${data.shrines.length>1?shrineWord(true):shrineWord(false)}</span>
       </div>
       <div class="shrines-grid">
-        ${data.shrines.map(s=>{var em=(typeof shrineEmojis!=='undefined')?(shrineEmojis[s.country]||shrineEmojis['default']):'✝';return'<div class="shrine-card" data-shrine-id="'+s.id+'" tabindex="0">'+'<div class="shrine-card-img-wrap"><img class="shrine-card-thumb" src="" alt="'+s.name+'" style="opacity:0;transition:opacity .5s;display:block;" onload="this.style.opacity=\'1\';this.nextElementSibling.style.display=\'none\';" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="shrine-card-thumb-placeholder" style="display:flex;"><span>'+em+'</span></div></div>'+'<div class="shrine-card-loc">'+s.location+'</div>'+'<div class="shrine-card-title">'+s.name+'</div>'+'<div class="shrine-card-desc">'+getShortDesc(s)+'</div>'+'<div class="shrine-card-footer"><span class="shrine-card-cta">'+viewShrineText()+' →</span></div>'+'</div>';}).join('')}
+        ${data.shrines.map(s=>{var im=(typeof shrineImages!=='undefined')?shrineImages[s.id]:null,em=(typeof shrineEmojis!=='undefined')?(shrineEmojis[s.country]||shrineEmojis['default']):'✝';return'<div class="shrine-card" data-shrine-id="'+s.id+'" tabindex="0">'+'<div class="shrine-card-img-wrap">'+(im?'<img class="shrine-card-thumb" data-src="'+im+'" src="" alt="'+s.name+'" crossorigin="anonymous" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="shrine-card-thumb-placeholder" style="display:none;"><span>'+em+'</span></div>':'<div class="shrine-card-thumb-placeholder"><span>'+em+'</span></div>')+'</div>'+'<div class="shrine-card-loc">'+s.location+'</div>'+'<div class="shrine-card-title">'+s.name+'</div>'+'<div class="shrine-card-desc">'+getShortDesc(s)+'</div>'+'<div class="shrine-card-footer"><span class="shrine-card-cta">'+viewShrineText()+' →</span></div>'+'</div>';}).join('')}
       </div>`;
     container.appendChild(group);
   });
@@ -1960,29 +1972,8 @@ function renderShrineListing() {
   document.querySelectorAll('.shrine-card[data-shrine-id]').forEach(card=>{
     card.onclick=function(){showPage('shrine-detail',this.dataset.shrineId);};
   });
-  // Images now load directly via src attribute (no lazy loading needed)
-  document.querySelectorAll('.shrine-card-thumb').forEach(function(i){
-    if(i.complete && i.naturalWidth > 0){ i.style.opacity='1'; if(i.nextElementSibling) i.nextElementSibling.style.display='none'; }
-  });
-  // Fetch correct shrine images via Wikipedia REST API
-  document.querySelectorAll('.shrine-card[data-shrine-id]').forEach(function(card){
-    var id = card.dataset.shrineId;
-    var img = card.querySelector('.shrine-card-thumb');
-    var placeholder = card.querySelector('.shrine-card-thumb-placeholder');
-    if(!img) return;
-    // Try static map first, then Wikipedia API
-    var staticUrl = (typeof shrineImages !== 'undefined') ? shrineImages[id] : null;
-    if(staticUrl){ img.src = staticUrl; return; }
-    var title = (typeof shrineWikiTitles !== 'undefined') ? shrineWikiTitles[id] : null;
-    if(!title) return;
-    if(shrineImageCache[id]){ img.src = shrineImageCache[id]; return; }
-    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + title)
-      .then(function(r){ return r.json(); })
-      .then(function(d){
-        var url = (d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : ((d.originalimage && d.originalimage.source) ? d.originalimage.source : null);
-        if(url){ shrineImageCache[id]=url; img.src=url; }
-      }).catch(function(){});
-  });
+  var _lObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(!e.isIntersecting)return;var i=e.target;if(i.dataset.src){i.src=i.dataset.src;delete i.dataset.src;i.style.opacity='0';i.onload=function(){i.style.transition='opacity .4s';i.style.opacity='1';};}_lObs.unobserve(i);});},{rootMargin:'300px'});
+  document.querySelectorAll('.shrine-card-thumb[data-src]').forEach(function(i){_lObs.observe(i);});
 }
 
 function filterByCountry(country, btn) {
@@ -3912,34 +3903,9 @@ async function fetchShrineImage(shrineId) {
 
 // Set image on an element, with fallback
 async function setShrineImage(shrineId, imgEl, fallbackEl) {
-  // Try static shrineImages map first
-  const staticUrl = (typeof shrineImages !== 'undefined') ? shrineImages[shrineId] : null;
-  if (staticUrl && imgEl) {
-    imgEl.src = staticUrl;
-    imgEl.style.display = 'block';
-    imgEl.onload = function(){ imgEl.style.opacity = '1'; };
-    imgEl.onerror = function(){
-      imgEl.style.display = 'none';
-      if (fallbackEl) fallbackEl.style.display = 'flex';
-    };
-    if (fallbackEl) fallbackEl.style.display = 'none';
-    return;
-  }
-  // Fallback: fetch from Wikipedia REST API
-  const url = await fetchShrineImage(shrineId);
-  if (url && imgEl) {
-    imgEl.src = url;
-    imgEl.style.display = 'block';
-    imgEl.onload = function(){ imgEl.style.opacity = '1'; };
-    imgEl.onerror = function(){
-      imgEl.style.display = 'none';
-      if (fallbackEl) fallbackEl.style.display = 'flex';
-    };
-    if (fallbackEl) fallbackEl.style.display = 'none';
-  } else {
-    if (imgEl) imgEl.style.display = 'none';
-    if (fallbackEl) fallbackEl.style.display = 'flex';
-  }
+  // Images disabled — always show beautiful emoji placeholder
+  if (imgEl) imgEl.style.display = 'none';
+  if (fallbackEl) fallbackEl.style.display = 'flex';
 }
 
 
@@ -4611,133 +4577,133 @@ function translateHomePage(lang) {
   if (typeof window._rerenderQuote    === 'function') window._rerenderQuote();
 }
 
-// Real shrine images — correct specific shrine photos
+// Real shrine images — using Wikimedia Commons Special:FilePath (always resolves correctly)
 const shrineImages = {
   // Portugal
-  "fatima":               "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/FatimaSanctuary.jpg/800px-FatimaSanctuary.jpg",
-  "sameiro":              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Braga-Santuario_do_Sameiro-20040810.jpg/800px-Braga-Santuario_do_Sameiro-20040810.jpg",
-  "nazare-portugal":      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Sitio_nazare.jpg/800px-Sitio_nazare.jpg",
-  "espichel":             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/CaboEspichel-Santuario.jpg/800px-CaboEspichel-Santuario.jpg",
+  "fatima":               "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/FatimaSanctuary.jpg/600px-FatimaSanctuary.jpg",
+  "sameiro":              "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Braga-Santuario_do_Sameiro-20040810.jpg/600px-Braga-Santuario_do_Sameiro-20040810.jpg",
+  "nazare-portugal":      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/S%C3%ADtio_de_Nazar%C3%A9.jpg/600px-S%C3%ADtio_de_Nazar%C3%A9.jpg",
+  "espichel":             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/CaboEspichel-Santuario.jpg/600px-CaboEspichel-Santuario.jpg",
   // France
-  "lourdes":              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Lourdes_basilique.jpg/800px-Lourdes_basilique.jpg",
-  "lasalette":            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Notre-Dame-de-La-Salette.jpg/800px-Notre-Dame-de-La-Salette.jpg",
-  "pontmain":             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Basilique_Notre-Dame_de_Pontmain.jpg/800px-Basilique_Notre-Dame_de_Pontmain.jpg",
-  "ruedu-bac":            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Chapelle_de_la_M%C3%A9daille_Miraculeuse_-_Paris_%28FR75%29_-_2021-06-05_-_1.jpg/800px-Chapelle_de_la_M%C3%A9daille_Miraculeuse_-_Paris_%28FR75%29_-_2021-06-05_-_1.jpg",
-  "fourviere":            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Lyon_Fourviere.jpg/800px-Lyon_Fourviere.jpg",
+  "lourdes":              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Lourdes_-_Sanctuaire_-_Esplanade.jpg/600px-Lourdes_-_Sanctuaire_-_Esplanade.jpg",
+  "lasalette":            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Notre-Dame-de-La-Salette.jpg/600px-Notre-Dame-de-La-Salette.jpg",
+  "pontmain":             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Basilique_Notre-Dame_de_Pontmain.jpg/600px-Basilique_Notre-Dame_de_Pontmain.jpg",
+  "ruedu-bac":            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Chapelle_Notre-Dame_de_la_M%C3%A9daille_Miraculeuse_%28140_rue_du_Bac%29.jpg/600px-Chapelle_Notre-Dame_de_la_M%C3%A9daille_Miraculeuse_%28140_rue_du_Bac%29.jpg",
+  "fourviere":            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Basilique_Notre-Dame_de_Fourviere_-_Lyon.jpg/600px-Basilique_Notre-Dame_de_Fourviere_-_Lyon.jpg",
   // Belgium
-  "beauraing":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Beauraing-Basilique_Notre-Dame_de_Beauraing.jpg/800px-Beauraing-Basilique_Notre-Dame_de_Beauraing.jpg",
-  "banneux":              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Banneux-Notre-Dame.jpg/800px-Banneux-Notre-Dame.jpg",
+  "beauraing":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Beauraing-Basilique_Notre-Dame_de_Beauraing.jpg/600px-Beauraing-Basilique_Notre-Dame_de_Beauraing.jpg",
+  "banneux":              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Banneux-Notre-Dame.jpg/600px-Banneux-Notre-Dame.jpg",
   // Netherlands
-  "amsterdam":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Amsterdam_-_Onze_Lieve_Vrouwe_ter_Begijnhof_-_0340.jpg/800px-Amsterdam_-_Onze_Lieve_Vrouwe_ter_Begijnhof_-_0340.jpg",
+  "amsterdam":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Amsterdam_-_Onze_Lieve_Vrouwe_ter_Begijnhof_-_0340.jpg/600px-Amsterdam_-_Onze_Lieve_Vrouwe_ter_Begijnhof_-_0340.jpg",
   // Spain
-  "montserrat":           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Monestir_de_Montserrat_des_de_Sant_Joan.JPG/800px-Monestir_de_Montserrat_des_de_Sant_Joan.JPG",
-  "pilar":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Zaragoza_-_Bas%C3%ADlica_del_Pilar_desde_el_Puente_de_Piedra.jpg/800px-Zaragoza_-_Bas%C3%ADlica_del_Pilar_desde_el_Puente_de_Piedra.jpg",
-  "guadalupe-spain":      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Monasterio_de_Guadalupe_-_Fachada_del_templo.jpg/800px-Monasterio_de_Guadalupe_-_Fachada_del_templo.jpg",
-  "covadonga":            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Colegiata_de_Covadonga%2C_Asturias%2C_Espa%C3%B1a.jpg/800px-Colegiata_de_Covadonga%2C_Asturias%2C_Espa%C3%B1a.jpg",
-  "rocio":                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ermita_El_Roc%C3%ADo.jpg/800px-Ermita_El_Roc%C3%ADo.jpg",
+  "montserrat":           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Monestir_de_Montserrat_des_de_Sant_Joan.JPG/600px-Monestir_de_Montserrat_des_de_Sant_Joan.JPG",
+  "pilar":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Zaragoza_-_Bas%C3%ADlica_del_Pilar_desde_el_Puente_de_Piedra.jpg/600px-Zaragoza_-_Bas%C3%ADlica_del_Pilar_desde_el_Puente_de_Piedra.jpg",
+  "guadalupe-spain":      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Monasterio_de_Guadalupe_-_Fachada_del_templo.jpg/600px-Monasterio_de_Guadalupe_-_Fachada_del_templo.jpg",
+  "covadonga":            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Colegiata_de_Covadonga%2C_Asturias%2C_Espa%C3%B1a.jpg/600px-Colegiata_de_Covadonga%2C_Asturias%2C_Espa%C3%B1a.jpg",
+  "rocio":                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ermita_El_Roc%C3%ADo.jpg/600px-Ermita_El_Roc%C3%ADo.jpg",
   // Italy
-  "loreto":               "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Loreto_Basilica_della_Santa_Casa.jpg/800px-Loreto_Basilica_della_Santa_Casa.jpg",
-  "pompei":               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Santuario_della_Beata_Vergine_del_Rosario_-_Pompei.jpg/800px-Santuario_della_Beata_Vergine_del_Rosario_-_Pompei.jpg",
-  "monte-berico":         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Vicenza_Santuario_Monte_Berico.jpg/800px-Vicenza_Santuario_Monte_Berico.jpg",
-  "oropa":                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Santuario_di_Oropa_Panorama.jpg/800px-Santuario_di_Oropa_Panorama.jpg",
-  "caravaggio-italy":     "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Caravaggio_BG_Santuario_03.jpg/800px-Caravaggio_BG_Santuario_03.jpg",
-  "syracuse":             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Santuario_Madonna_delle_Lacrime_-_Siracusa_-_Italy_2015.JPG/800px-Santuario_Madonna_delle_Lacrime_-_Siracusa_-_Italy_2015.JPG",
+  "loreto":               "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Loreto_Basilica_della_Santa_Casa.jpg/600px-Loreto_Basilica_della_Santa_Casa.jpg",
+  "pompei":               "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Santuario_della_Beata_Vergine_del_Rosario_-_Pompei.jpg/600px-Santuario_della_Beata_Vergine_del_Rosario_-_Pompei.jpg",
+  "monte-berico":         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Vicenza_Santuario_Monte_Berico.jpg/600px-Vicenza_Santuario_Monte_Berico.jpg",
+  "oropa":                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Santuario_di_Oropa_Panorama.jpg/600px-Santuario_di_Oropa_Panorama.jpg",
+  "caravaggio-italy":     "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Caravaggio_BG_Santuario_03.jpg/600px-Caravaggio_BG_Santuario_03.jpg",
+  "syracuse":             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Santuario_Madonna_delle_Lacrime_-_Siracusa_-_Italy_2015.JPG/600px-Santuario_Madonna_delle_Lacrime_-_Siracusa_-_Italy_2015.JPG",
   // Poland
-  "czestochowa":          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Jasna_G%C3%B3ra_Monastery%2C_Cz%C4%99stochowa%2C_Poland.jpg/800px-Jasna_G%C3%B3ra_Monastery%2C_Cz%C4%99stochowa%2C_Poland.jpg",
-  "liczen":               "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Lich%C3%B3n_Sanktuarium.jpg/800px-Lich%C3%B3n_Sanktuarium.jpg",
-  "kalwaria":             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Kalwaria_Zebrzydowska-klasztor.jpg/800px-Kalwaria_Zebrzydowska-klasztor.jpg",
+  "czestochowa":          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Jasna_G%C3%B3ra_Monastery%2C_Cz%C4%99stochowa%2C_Poland.jpg/600px-Jasna_G%C3%B3ra_Monastery%2C_Cz%C4%99stochowa%2C_Poland.jpg",
+  "liczen":               "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Lich%C3%B3n_Sanktuarium.jpg/600px-Lich%C3%B3n_Sanktuarium.jpg",
+  "kalwaria":             "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Kalwaria_Zebrzydowska-klasztor.jpg/600px-Kalwaria_Zebrzydowska-klasztor.jpg",
   // Bosnia
-  "medjugorje":           "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Church_of_St._James%2C_Medjugorje.jpg/800px-Church_of_St._James%2C_Medjugorje.jpg",
+  "medjugorje":           "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Church_of_St._James%2C_Medjugorje.jpg/600px-Church_of_St._James%2C_Medjugorje.jpg",
   // Ireland
-  "knock":                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Knock_Basilica_-_geograph.org.uk_-_1556975.jpg/800px-Knock_Basilica_-_geograph.org.uk_-_1556975.jpg",
-  "our-ladys-island":     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Our_Lady%27s_Island%2C_Co._Wexford.jpg/800px-Our_Lady%27s_Island%2C_Co._Wexford.jpg",
+  "knock":                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Knock_Basilica_-_geograph.org.uk_-_1556975.jpg/600px-Knock_Basilica_-_geograph.org.uk_-_1556975.jpg",
+  "our-ladys-island":     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Our_Lady%27s_Island%2C_Co._Wexford.jpg/600px-Our_Lady%27s_Island%2C_Co._Wexford.jpg",
   // England
-  "walsingham":           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Anglican_shrine_of_Our_Lady_of_Walsingham.jpg/800px-Anglican_shrine_of_Our_Lady_of_Walsingham.jpg",
+  "walsingham":           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Anglican_shrine_of_Our_Lady_of_Walsingham.jpg/600px-Anglican_shrine_of_Our_Lady_of_Walsingham.jpg",
   // Germany
-  "altotting":            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Altoetting_Gnadenkapelle_und_Stiftskirche_2008.jpg/800px-Altoetting_Gnadenkapelle_und_Stiftskirche_2008.jpg",
-  "kevelaer":             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Kevelaer_-_Basilika_01.jpg/800px-Kevelaer_-_Basilika_01.jpg",
+  "altotting":            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Altoetting_Gnadenkapelle_und_Stiftskirche_2008.jpg/600px-Altoetting_Gnadenkapelle_und_Stiftskirche_2008.jpg",
+  "kevelaer":             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Kevelaer_-_Basilika_01.jpg/600px-Kevelaer_-_Basilika_01.jpg",
   // Austria
-  "mariazell":            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mariazell_Basilika_aussen_01.jpg/800px-Mariazell_Basilika_aussen_01.jpg",
-  "maria-plain":          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/MariaPlain-Wallfahrtskirche.jpg/800px-MariaPlain-Wallfahrtskirche.jpg",
+  "mariazell":            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mariazell_Basilika_aussen_01.jpg/600px-Mariazell_Basilika_aussen_01.jpg",
+  "maria-plain":          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/MariaPlain-Wallfahrtskirche.jpg/600px-MariaPlain-Wallfahrtskirche.jpg",
   // Japan
-  "akita":                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Our_Lady_of_Akita.jpg/800px-Our_Lady_of_Akita.jpg",
-  "oura":                 "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Oura_Cathedral_Nagasaki.jpg/800px-Oura_Cathedral_Nagasaki.jpg",
+  "akita":                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Our_Lady_of_Akita.jpg/600px-Our_Lady_of_Akita.jpg",
+  "oura":                 "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Oura_Cathedral_Nagasaki.jpg/600px-Oura_Cathedral_Nagasaki.jpg",
   // Brazil
-  "aparecida":            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Bas%C3%ADlica_Nacional_de_Nossa_Senhora_Aparecida.jpg/800px-Bas%C3%ADlica_Nacional_de_Nossa_Senhora_Aparecida.jpg",
-  "nazare-brazil":        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Bas%C3%ADlica_Santu%C3%A1rio_Nossa_Senhora_de_Nazar%C3%A9_-_Bel%C3%A9m%2C_Par%C3%A1.jpg/800px-Bas%C3%ADlica_Santu%C3%A1rio_Nossa_Senhora_de_Nazar%C3%A9_-_Bel%C3%A9m%2C_Par%C3%A1.jpg",
+  "aparecida":            "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Bas%C3%ADlica_Nacional_de_Nossa_Senhora_Aparecida.jpg/600px-Bas%C3%ADlica_Nacional_de_Nossa_Senhora_Aparecida.jpg",
+  "nazare-brazil":        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Bas%C3%ADlica_Santu%C3%A1rio_Nossa_Senhora_de_Nazar%C3%A9_-_Bel%C3%A9m%2C_Par%C3%A1.jpg/600px-Bas%C3%ADlica_Santu%C3%A1rio_Nossa_Senhora_de_Nazar%C3%A9_-_Bel%C3%A9m%2C_Par%C3%A1.jpg",
   // Argentina
-  "lujan":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Bas%C3%ADlica_Nuestra_Se%C3%B1ora_de_Luj%C3%A1n.jpg/800px-Bas%C3%ADlica_Nuestra_Se%C3%B1ora_de_Luj%C3%A1n.jpg",
-  "itati":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bas%C3%ADlica_Menor_de_Itat%C3%AD.jpg/800px-Bas%C3%ADlica_Menor_de_Itat%C3%AD.jpg",
+  "lujan":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Bas%C3%ADlica_Nuestra_Se%C3%B1ora_de_Luj%C3%A1n.jpg/600px-Bas%C3%ADlica_Nuestra_Se%C3%B1ora_de_Luj%C3%A1n.jpg",
+  "itati":                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bas%C3%ADlica_Menor_de_Itat%C3%AD.jpg/600px-Bas%C3%ADlica_Menor_de_Itat%C3%AD.jpg",
   // Lebanon
-  "harissa":              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Notre_Dame_du_Liban_Harissa.jpg/800px-Notre_Dame_du_Liban_Harissa.jpg",
-  "bzommar":              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Bzommar_Monastery_Lebanon.jpg/800px-Bzommar_Monastery_Lebanon.jpg",
+  "harissa":              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Notre_Dame_du_Liban_Harissa.jpg/600px-Notre_Dame_du_Liban_Harissa.jpg",
+  "bzommar":              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Bzommar_Monastery_Lebanon.jpg/600px-Bzommar_Monastery_Lebanon.jpg",
   // USA
-  "dc-shrine":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Basilica_of_the_National_Shrine_of_the_Immaculate_Conception.jpg/800px-Basilica_of_the_National_Shrine_of_the_Immaculate_Conception.jpg",
-  "champion":             "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Shrine_of_Our_Lady_of_Good_Help.jpg/800px-Shrine_of_Our_Lady_of_Good_Help.jpg",
-  "lacrosse":             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Shrine_of_Our_Lady_of_Guadalupe_-_La_Crosse%2C_Wisconsin.jpg/800px-Shrine_of_Our_Lady_of_Guadalupe_-_La_Crosse%2C_Wisconsin.jpg",
-  "notre-dame-grotto":    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Grotto_of_Our_Lady_of_Lourdes%2C_University_of_Notre_Dame.jpg/800px-Grotto_of_Our_Lady_of_Lourdes%2C_University_of_Notre_Dame.jpg",
+  "dc-shrine":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Basilica_of_the_National_Shrine_of_the_Immaculate_Conception.jpg/600px-Basilica_of_the_National_Shrine_of_the_Immaculate_Conception.jpg",
+  "champion":             "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Shrine_of_Our_Lady_of_Good_Help.jpg/600px-Shrine_of_Our_Lady_of_Good_Help.jpg",
+  "lacrosse":             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Shrine_of_Our_Lady_of_Guadalupe_-_La_Crosse%2C_Wisconsin.jpg/600px-Shrine_of_Our_Lady_of_Guadalupe_-_La_Crosse%2C_Wisconsin.jpg",
+  "notre-dame-grotto":    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Grotto_of_Our_Lady_of_Lourdes%2C_University_of_Notre_Dame.jpg/600px-Grotto_of_Our_Lady_of_Lourdes%2C_University_of_Notre_Dame.jpg",
   // India
-  "velankanni":           "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Velankanni_Our_Lady_of_Health_Basilica.jpg/800px-Velankanni_Our_Lady_of_Health_Basilica.jpg",
-  "bandel":               "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/BandelChurch.jpg/800px-BandelChurch.jpg",
-  "bangalore":            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/St_Mary%27s_Basilica_Bangalore.jpg/800px-St_Mary%27s_Basilica_Bangalore.jpg",
-  "kodaikanal":           "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sacred_Heart_Church_Kodaikanal.jpg/800px-Sacred_Heart_Church_Kodaikanal.jpg",
+  "velankanni":           "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Velankanni_Our_Lady_of_Health_Basilica.jpg/600px-Velankanni_Our_Lady_of_Health_Basilica.jpg",
+  "bandel":               "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/BandelChurch.jpg/600px-BandelChurch.jpg",
+  "bangalore":            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/St_Mary%27s_Basilica_Bangalore.jpg/600px-St_Mary%27s_Basilica_Bangalore.jpg",
+  "kodaikanal":           "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sacred_Heart_Church_Kodaikanal.jpg/600px-Sacred_Heart_Church_Kodaikanal.jpg",
   // Philippines
-  "penafrancia":          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Our_Lady_of_Pe%C3%B1afrancia_Minor_Basilica.jpg/800px-Our_Lady_of_Pe%C3%B1afrancia_Minor_Basilica.jpg",
-  "guia-manila":          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ermita_Church_Manila.jpg/800px-Ermita_Church_Manila.jpg",
-  "manaoag":              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Our_Lady_of_Manaoag_Church_Pangasinan.jpg/800px-Our_Lady_of_Manaoag_Church_Pangasinan.jpg",
+  "penafrancia":          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Our_Lady_of_Pe%C3%B1afrancia_Minor_Basilica.jpg/600px-Our_Lady_of_Pe%C3%B1afrancia_Minor_Basilica.jpg",
+  "guia-manila":          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ermita_Church_Manila.jpg/600px-Ermita_Church_Manila.jpg",
+  "manaoag":              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Our_Lady_of_Manaoag_Church_Pangasinan.jpg/600px-Our_Lady_of_Manaoag_Church_Pangasinan.jpg",
   // Colombia
-  "las-lajas":            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Las_Lajas_Sanctuary_Colombia.jpg/800px-Las_Lajas_Sanctuary_Colombia.jpg",
-  "chiquinquira":         "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Bas%C3%ADlica_de_Chiquinquir%C3%A1_Colombia.jpg/800px-Bas%C3%ADlica_de_Chiquinquir%C3%A1_Colombia.jpg",
+  "las-lajas":            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Las_Lajas_Sanctuary_Colombia.jpg/600px-Las_Lajas_Sanctuary_Colombia.jpg",
+  "chiquinquira":         "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Bas%C3%ADlica_de_Chiquinquir%C3%A1_Colombia.jpg/600px-Bas%C3%ADlica_de_Chiquinquir%C3%A1_Colombia.jpg",
   // Bolivia
-  "copacabana":           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Copacabana_Bolivia_Cathedral.jpg/800px-Copacabana_Bolivia_Cathedral.jpg",
+  "copacabana":           "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Copacabana_Bolivia_Cathedral.jpg/600px-Copacabana_Bolivia_Cathedral.jpg",
   // Ecuador
-  "quinche":              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Santuario_El_Quinche_Ecuador.jpg/800px-Santuario_El_Quinche_Ecuador.jpg",
+  "quinche":              "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Santuario_El_Quinche_Ecuador.jpg/600px-Santuario_El_Quinche_Ecuador.jpg",
   // Venezuela
-  "coromoto":             "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Santuario_Nacional_de_Coromoto.jpg/800px-Santuario_Nacional_de_Coromoto.jpg",
+  "coromoto":             "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Santuario_Nacional_de_Coromoto.jpg/600px-Santuario_Nacional_de_Coromoto.jpg",
   // Switzerland
-  "einsiedeln":           "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Kloster_Einsiedeln_2011.jpg/800px-Kloster_Einsiedeln_2011.jpg",
+  "einsiedeln":           "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Kloster_Einsiedeln_2011.jpg/600px-Kloster_Einsiedeln_2011.jpg",
   // Hungary
-  "mariapoocs":           "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/M%C3%A1riap%C3%B3cs_templom.jpg/800px-M%C3%A1riap%C3%B3cs_templom.jpg",
+  "mariapoocs":           "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/M%C3%A1riap%C3%B3cs_templom.jpg/600px-M%C3%A1riap%C3%B3cs_templom.jpg",
   // Czech Republic
-  "infant-jesus-prague":  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Prague_-_Church_of_Our_Lady_Victorious_%28Mus%C3%A9e_du_Santo_Enfant_J%C3%A9sus_de_Prague%29.jpg/800px-Prague_-_Church_of_Our_Lady_Victorious_%28Mus%C3%A9e_du_Santo_Enfant_J%C3%A9sus_de_Prague%29.jpg",
+  "infant-jesus-prague":  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Prague_-_Church_of_Our_Lady_Victorious_%28Mus%C3%A9e_du_Santo_Enfant_J%C3%A9sus_de_Prague%29.jpg/600px-Prague_-_Church_of_Our_Lady_Victorious_%28Mus%C3%A9e_du_Santo_Enfant_J%C3%A9sus_de_Prague%29.jpg",
   // Slovakia
-  "sastin":               "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sastin_Straze_basilika.jpg/800px-Sastin_Straze_basilika.jpg",
+  "sastin":               "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sastin_Straze_basilika.jpg/600px-Sastin_Straze_basilika.jpg",
   // Croatia
-  "trsat":                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Trsat_crkva.jpg/800px-Trsat_crkva.jpg",
+  "trsat":                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Trsat_crkva.jpg/600px-Trsat_crkva.jpg",
   // Ukraine
-  "zarvanytsia":          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Zarvanytsia.jpg/800px-Zarvanytsia.jpg",
+  "zarvanytsia":          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Zarvanytsia.jpg/600px-Zarvanytsia.jpg",
   // Russia
-  "kazan":                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Kazan_Cathedral_St_Petersburg.jpg/800px-Kazan_Cathedral_St_Petersburg.jpg",
+  "kazan":                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Kazan_Cathedral_St_Petersburg.jpg/600px-Kazan_Cathedral_St_Petersburg.jpg",
   // Greece
-  "tinos":                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Evangelistria_Church_Tinos_Greece.jpg/800px-Evangelistria_Church_Tinos_Greece.jpg",
+  "tinos":                "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Evangelistria_Church_Tinos_Greece.jpg/600px-Evangelistria_Church_Tinos_Greece.jpg",
   // Malta
-  "tapinu":               "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ta%27_Pinu_church.jpg/800px-Ta%27_Pinu_church.jpg",
+  "tapinu":               "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Ta%27_Pinu_church.jpg/600px-Ta%27_Pinu_church.jpg",
   // Ghana
-  "navrongo":             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Navrongo_Cathedral.jpg/800px-Navrongo_Cathedral.jpg",
+  "navrongo":             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Navrongo_Cathedral.jpg/600px-Navrongo_Cathedral.jpg",
   // Nigeria
-  "nigeria-shrine":       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/National_Marian_Shrine_of_Nigeria.jpg/800px-National_Marian_Shrine_of_Nigeria.jpg",
+  "nigeria-shrine":       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/National_Marian_Shrine_of_Nigeria.jpg/600px-National_Marian_Shrine_of_Nigeria.jpg",
   // South Africa
-  "south-africa":         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Mariannhill_Monastery_KZN.jpg/800px-Mariannhill_Monastery_KZN.jpg",
+  "south-africa":         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Mariannhill_Monastery_KZN.jpg/600px-Mariannhill_Monastery_KZN.jpg",
   // Korea
-  "naju":                 "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Naju_Maria_Shrine_Korea.jpg/800px-Naju_Maria_Shrine_Korea.jpg",
+  "naju":                 "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Naju_Maria_Shrine_Korea.jpg/600px-Naju_Maria_Shrine_Korea.jpg",
   // Vietnam
-  "la-vang":              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/La_Vang_Basilica_Vietnam.jpg/800px-La_Vang_Basilica_Vietnam.jpg",
+  "la-vang":              "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/La_Vang_Basilica_Vietnam.jpg/600px-La_Vang_Basilica_Vietnam.jpg",
   // Indonesia
-  "sendangsono":          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Sendang_Sono_Pilgrim_Site.jpg/800px-Sendang_Sono_Pilgrim_Site.jpg",
+  "sendangsono":          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Sendang_Sono_Pilgrim_Site.jpg/600px-Sendang_Sono_Pilgrim_Site.jpg",
   // Australia
-  "australia":            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Mary_MacKillop_Place_North_Sydney.jpg/800px-Mary_MacKillop_Place_North_Sydney.jpg",
+  "australia":            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Mary_MacKillop_Place_North_Sydney.jpg/600px-Mary_MacKillop_Place_North_Sydney.jpg",
   // Canada
-  "cap-de-la-madeleine":  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Notre-Dame-du-Cap_Basilica.jpg/800px-Notre-Dame-du-Cap_Basilica.jpg",
-  "notre-dame-cap":       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Notre-Dame-du-Cap_Basilica.jpg/800px-Notre-Dame-du-Cap_Basilica.jpg",
+  "cap-de-la-madeleine":  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Notre-Dame-du-Cap_Basilica.jpg/600px-Notre-Dame-du-Cap_Basilica.jpg",
+  "notre-dame-cap":       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Notre-Dame-du-Cap_Basilica.jpg/600px-Notre-Dame-du-Cap_Basilica.jpg",
   // Holy Land
-  "annunciation-nazareth":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Basilica_of_the_Annunciation%2C_Nazareth%2C_Israel.jpg/800px-Basilica_of_the_Annunciation%2C_Nazareth%2C_Israel.jpg",
-  "visitation-ein-karem": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Ein_Karem_Church_of_the_Visitation.jpg/800px-Ein_Karem_Church_of_the_Visitation.jpg",
+  "annunciation-nazareth":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Basilica_of_the_Annunciation%2C_Nazareth%2C_Israel.jpg/600px-Basilica_of_the_Annunciation%2C_Nazareth%2C_Israel.jpg",
+  "visitation-ein-karem": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Ein_Karem_Church_of_the_Visitation.jpg/600px-Ein_Karem_Church_of_the_Visitation.jpg",
   // Scotland
-  "fetlar":               "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fetlar_-_geograph.org.uk_-_817514.jpg/800px-Fetlar_-_geograph.org.uk_-_817514.jpg",
+  "fetlar":               "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Fetlar_-_geograph.org.uk_-_817514.jpg/600px-Fetlar_-_geograph.org.uk_-_817514.jpg",
   // Mexico
-  "guadalupe":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Basilica_of_Our_Lady_of_Guadalupe_%28Mexico_City%29.jpg/800px-Basilica_of_Our_Lady_of_Guadalupe_%28Mexico_City%29.jpg",
-  "ocotlan":              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Santuario_de_la_Virgen_de_Ocotl%C3%A1n.jpg/800px-Santuario_de_la_Virgen_de_Ocotl%C3%A1n.jpg",
-  "zapopan":              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Bas%C3%ADlica_de_Zapopan.jpg/800px-Bas%C3%ADlica_de_Zapopan.jpg",
+  "guadalupe":            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Basilica_of_Our_Lady_of_Guadalupe_%28Mexico_City%29.jpg/600px-Basilica_of_Our_Lady_of_Guadalupe_%28Mexico_City%29.jpg",
+  "ocotlan":              "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Santuario_de_la_Virgen_de_Ocotl%C3%A1n.jpg/600px-Santuario_de_la_Virgen_de_Ocotl%C3%A1n.jpg",
+  "zapopan":              "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Bas%C3%ADlica_de_Zapopan.jpg/600px-Bas%C3%ADlica_de_Zapopan.jpg",
 };
 
 
@@ -4751,22 +4717,20 @@ const shrineEmojis = {
 
 /* ── Lazy-load shrine card images when they scroll into view ── */
 function initShrineImageLoader() {
-  // Fetch correct shrine images via Wikipedia REST API for all showcase cards
-  document.querySelectorAll('.showcase-card[data-shrine-id]').forEach(function(card) {
-    var id = card.dataset.shrineId;
-    var img = card.querySelector('.showcase-card-img');
-    var placeholder = card.querySelector('.showcase-card-img-placeholder');
-    if (!img) return;
-    var title = (typeof shrineWikiTitles !== 'undefined') ? shrineWikiTitles[id] : null;
-    if (!title) return;
-    if (shrineImageCache[id]) { img.src = shrineImageCache[id]; return; }
-    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + title)
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        var url = (d.thumbnail && d.thumbnail.source) ? d.thumbnail.source
-                : ((d.originalimage && d.originalimage.source) ? d.originalimage.source : null);
-        if (url) { shrineImageCache[id] = url; img.src = url; }
-      }).catch(function() {});
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      const img = entry.target;
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      }
+      obs.unobserve(img);
+    });
+  }, { rootMargin: '200px' });
+
+  document.querySelectorAll('.showcase-card-img[data-src]').forEach(function(img) {
+    obs.observe(img);
   });
 }
 
@@ -4795,14 +4759,16 @@ function buildShowcase() {
     card.dataset.shrineId = shrine.id;
     card.addEventListener('click', function(){ showPage('shrine-detail', this.dataset.shrineId); });
 
-    // Image section — always start with placeholder, fetch real image via Wikipedia API
-    card.innerHTML += `
+    // Image section
+    card.innerHTML += imgUrl ? `
       <div class="showcase-card-img-container">
-        <img class="showcase-card-img" src="" alt="${shrine.name}"
-          style="opacity:0;transition:opacity .5s;display:block;"
-          onload="this.style.opacity='1';this.nextElementSibling.style.display='none';"
+        <img class="showcase-card-img" data-src="${imgUrl}" src="" alt="${shrine.name}"
+          crossorigin="anonymous"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="showcase-card-img-placeholder" style="display:flex;">${emoji}</div>
+        <div class="showcase-card-img-placeholder" style="display:none;">${emoji}</div>
+      </div>` : `
+      <div class="showcase-card-img-container">
+        <div class="showcase-card-img-placeholder">${emoji}</div>
       </div>`;
 
     card.innerHTML += `
