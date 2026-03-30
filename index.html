@@ -26,7 +26,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .nav-brand{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:.12em;text-decoration:none;cursor:pointer;}
 .nav-brand span{color:var(--gold);}
 .nav-links{display:flex;gap:1.8rem;list-style:none;}
-.nav-links a{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.18em;color:#666666;text-decoration:none;transition:color .2s;text-transform:uppercase;cursor:pointer;}
+.nav-links a{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.18em;color:#444444;text-decoration:none;transition:color .2s;text-transform:uppercase;cursor:pointer;}
 .nav-links a:hover{color:var(--gold);}
 .nav-back{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.18em;color:var(--gold);text-decoration:none;cursor:pointer;display:none;align-items:center;gap:.5rem;transition:color .2s;}
 .nav-back:hover{color:var(--gold-light);}
@@ -71,8 +71,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .hero{
   min-height:100vh;
   background:
-    linear-gradient(rgba(0,0,0,.52),rgba(0,0,0,.42)),
-    url('https://images.unsplash.com/photo-1548625361-58a9b86aa83b?w=1800&q=85') center/cover no-repeat;
+    linear-gradient(135deg,rgba(5,2,1,.55) 0%,rgba(10,5,2,.42) 40%,rgba(5,2,1,.60) 100%),
+    url('https://t3.ftcdn.net/jpg/06/99/71/98/360_F_699719833_MUDuuJ0hPrAh7v6pVMu35Mu0cw1zZcWX.jpg') center top/cover no-repeat;
   display:grid;
   grid-template-columns:1fr 1fr;
   align-items:center;
@@ -111,8 +111,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .hero-badge{
   display:inline-flex;align-items:center;gap:.6rem;
   font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.3em;
-  color:rgba(220,175,80,.9);text-transform:uppercase;
-  background:rgba(200,152,42,.1);border:1px solid rgba(200,152,42,.25);
+  color:rgba(240,200,100,1);text-transform:uppercase;
+  background:rgba(200,152,42,.15);border:1px solid rgba(200,152,42,.4);
   padding:.4rem 1rem;margin-bottom:1.6rem;
   opacity:0;animation:badgePop .6s .5s forwards;
 }
@@ -163,7 +163,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .hero-stat+.hero-stat{border-left:none;}
 .hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:#e8c060;display:inline;line-height:1;}
 .hero-stat-num-suffix{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#e8c060;opacity:.7;}
-.hero-stat-lbl{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.25em;color:rgba(195,170,120,.5);text-transform:uppercase;display:block;margin-top:.25rem;}
+.hero-stat-lbl{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.25em;color:rgba(220,200,160,.8);text-transform:uppercase;display:block;margin-top:.25rem;}
 
 .hero-ctas{
   display:flex;gap:.8rem;flex-wrap:wrap;
@@ -210,7 +210,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .hero-spotlight-body{padding:1.4rem 1.4rem 1.2rem;min-height:140px;position:relative;}
 .hero-spotlight-country{
   font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.22em;
-  color:rgba(200,152,42,.75);text-transform:uppercase;margin-bottom:.5rem;
+  color:rgba(240,190,80,.95);text-transform:uppercase;margin-bottom:.5rem;
   display:flex;align-items:center;gap:.5rem;
 }
 .hero-spotlight-name{
@@ -219,7 +219,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
   animation:shrineSlideIn .5s ease forwards;
 }
 .hero-spotlight-desc{
-  font-size:1.05rem;line-height:1.72;color:rgba(235,215,180,.92);
+  font-size:1.05rem;line-height:1.72;color:rgba(255,240,210,1);
   font-style:italic;margin-bottom:1rem;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
@@ -254,26 +254,41 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 
 /* Quote rotator below spotlight */
 .hero-quote-box{
-  margin-top:1rem;padding:1rem 1.2rem;
-  border-left:2px solid rgba(200,152,42,.4);
-  background:rgba(200,152,42,.04);
+  margin-top:1rem;padding:1.1rem 1.3rem;
+  border-left:3px solid rgba(220,175,60,.7);
+  background:rgba(10,5,0,.45);
+  backdrop-filter:blur(4px);
   min-height:4.5rem;position:relative;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.2);
 }
 .hero-quote-text{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;
-  color:rgba(240,220,185,.95);line-height:1.7;
+  font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-style:italic;
+  font-weight:500;
+  color:rgba(255,245,215,1);line-height:1.75;
   animation:quoteSlide .5s ease forwards;
+  text-shadow:0 1px 12px rgba(0,0,0,.6);
 }
 .hero-quote-attr{
-  font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.2em;
-  color:rgba(210,165,80,.85);text-transform:uppercase;margin-top:.4rem;display:block;
+  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.22em;
+  color:rgba(240,195,90,1);text-transform:uppercase;margin-top:.5rem;display:block;
+  font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.5);
 }
 
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding:5rem 1.5rem 3rem;text-align:center;}
+  .hero{
+    grid-template-columns:1fr;
+    padding:5rem 1.2rem 3rem;
+    text-align:center;
+    min-height:100svh;
+    background-position:center top;
+  }
   .hero-left{align-items:center;}
-  .hero-stats{justify-content:center;}
+  .hero-stats{justify-content:center;flex-wrap:wrap;gap:0;}
+  .hero-stat{flex:1 1 auto;min-width:90px;}
   .hero-right{display:none;}
+  .hero-ctas{justify-content:center;}
+  .hero-title{font-size:clamp(2.4rem,9vw,4rem);}
+  .hero-typewriter-wrap{font-size:1.08rem;}
 }
 .hero-canvas{display:none;}
 .hero-overlay-gradient{display:none;}
@@ -288,8 +303,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,152,42,.06);}
 
 /* MARQUEE */
-.marquee-wrap{background:var(--gold);border:none;overflow:hidden;padding:.85rem 0;}
-.marquee-track{display:flex;gap:3rem;white-space:nowrap;animation:marquee 40s linear infinite;}
+.marquee-wrap{background:var(--gold);border:none;overflow:hidden;padding:0;position:relative;height:2.8rem;display:flex;align-items:center;}
+.marquee-track{display:flex;gap:3rem;white-space:nowrap;animation:marquee 40s linear infinite;padding-left:0;align-items:center;}
 .marquee-item{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.25em;color:#fff;text-transform:uppercase;flex-shrink:0;}
 .marquee-sep{color:rgba(255,255,255,.4);}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -444,15 +459,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);bac
 
 /* QUOTE */
 .quote-banner{
-  background:
-    linear-gradient(rgba(15,8,2,.80),rgba(15,8,2,.75)),
-    url('https://images.unsplash.com/photo-1548625361-58a9b86aa83b?w=1800&q=85') center/cover no-repeat;
+  background: linear-gradient(160deg,#0e0a04 0%,#1a1108 40%,#0e0a04 100%);
   padding:6rem 2rem;text-align:center;position:relative;overflow:hidden;
   border-top:none;border-bottom:none;
 }
 .quote-banner::before{content:'"';position:absolute;top:-1rem;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:18rem;color:rgba(201,146,42,.15);line-height:1;pointer-events:none;}
-.quote-text{font-family:"Cormorant Garamond",serif;font-size:clamp(1.65rem,3vw,2.6rem);font-style:italic;font-weight:300;color:#FFFFFF;max-width:760px;margin:0 auto 1.2rem;line-height:1.5;text-shadow:0 2px 20px rgba(0,0,0,.4);position:relative;z-index:1;}
-.quote-attr{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.3em;color:var(--gold-light);text-transform:uppercase;position:relative;z-index:1;}
+.quote-text{font-family:"Cormorant Garamond",serif;font-size:clamp(1.65rem,3vw,2.6rem);font-style:italic;font-weight:500;color:#FFFFFF;max-width:800px;margin:0 auto 1.4rem;line-height:1.6;text-shadow:0 2px 30px rgba(0,0,0,.7),0 0 60px rgba(0,0,0,.4);position:relative;z-index:1;}
+.quote-attr{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.3em;color:var(--gold-light);text-transform:uppercase;position:relative;z-index:1;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.5);}
 
 /* ROSARY */
 /* ════════════════════════════════════════
@@ -637,16 +650,77 @@ footer{background:#1A1A1A;color:rgba(255,255,255,.65);padding:3rem 2rem 2rem;tex
 .footer-copy{font-size:.82rem;color:rgba(255,255,255,.3);border-top:1px solid rgba(200,152,42,.1);padding-top:1.2rem;}
 
 @media(max-width:768px){
+  /* ── NAV MOBILE ── */
   .nav-links{display:none;}
+  .nav-top{padding:.6rem 1rem;}
+  .nav-brand{font-size:.85rem;}
+  .lang-trigger{padding:.35rem .7rem;font-size:.6rem;}
+
+  /* ── LAYOUT ── */
   .shrine-layout{grid-template-columns:1fr;}
   .rosary-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .rosary-body{grid-template-columns:1fr;padding:2rem 1rem 3rem;}
+  .rosary-visual{position:static;}
+
+  /* ── APPARITIONS ── */
   .apparitions-timeline::before{left:65px;}
   .apparition-item{grid-template-columns:65px 1fr;gap:1rem;}
   .apparition-year{font-size:1.3rem;}
+
+  /* ── CTA ── */
   .cta-box{padding:2rem 1.2rem;}
-  .hero-stats{gap:1.5rem;}
+  .email-form{flex-direction:column;}
+  .email-form input{min-width:unset;width:100%;}
+
+  /* ── STATS ── */
+  .hero-stats{gap:0;display:grid;grid-template-columns:1fr 1fr;}
+  .hero-stat+.hero-stat{border-left:none;}
+  .hero-stat:nth-child(odd){border-right:1px solid rgba(200,152,42,.15);}
+  .hero-stat:nth-child(n+3){border-top:none;}
+
+  /* ── SHRINES ── */
   .shrines-grid{grid-template-columns:1fr;}
   .shrine-hero{min-height:45vh;}
+  .shrine-body{padding:2rem 1rem;}
+  .shrine-hero-content{padding:2rem 1rem;}
+  .shrine-hero-title{font-size:clamp(1.8rem,7vw,2.8rem);}
+
+  /* ── SECTIONS ── */
+  .sec{padding:3.5rem 1rem;}
+  .shrines-section{padding:3.5rem 1rem;}
+  .showcase-arrow{display:none;}
+
+  /* ── PRAYERS GRID ── */
+  .prayers-grid{grid-template-columns:1fr;}
+
+  /* ── FOOTER ── */
+  .footer-links{gap:1rem;}
+
+  /* ── QUOTE BANNER ── */
+  .quote-banner{padding:4rem 1.2rem;}
+  .quote-text{font-size:1.5rem;}
+
+  /* ── MYSTERY TABS ── */
+  .mystery-tabs{overflow-x:auto;}
+  .mystery-tab{font-size:.42rem;padding:.6rem .3rem;}
+
+  /* ── SHRINE TABS ── */
+  .shrine-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+
+@media(max-width:480px){
+  .nav-brand{font-size:.78rem;letter-spacing:.06em;}
+  .hero-badge{font-size:.5rem;padding:.3rem .75rem;}
+  .btn-primary,.btn-ghost{padding:.7rem 1.3rem;font-size:.6rem;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .hero-stat-num{font-size:2rem;}
+  .sec-title{font-size:1.9rem;}
+  .country-filters{gap:.3rem;}
+  .filter-btn{font-size:.55rem;padding:.35rem .7rem;}
+  .prayer-modal{max-height:95vh;}
+  .prayer-modal-header{padding:1.2rem 1rem .8rem;}
+  .prayer-modal-body{padding:1rem 1rem 1.5rem;}
+  .prayer-modal-title{font-size:1.6rem;}
 }
 
 /* RTL Support */
@@ -758,12 +832,8 @@ footer{background:#1A1A1A;color:rgba(255,255,255,.65);padding:3rem 2rem 2rem;tex
 @keyframes orbSparkle{0%,100%{opacity:0;transform:scale(0)}40%,60%{opacity:1;transform:scale(1.3)}}
 @keyframes orbGlow{0%,100%{box-shadow:0 0 40px 15px rgba(200,150,50,.12),0 0 80px 30px rgba(200,150,50,.06)}50%{box-shadow:0 0 60px 25px rgba(200,150,50,.22),0 0 120px 50px rgba(200,150,50,.1)}}
 
-.hero-sacred-orb-zone{
-  display:flex;flex-direction:column;align-items:center;margin-bottom:1.6rem;
-}
-.sacred-orb-wrap{
-  position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;
-}
+.hero-sacred-orb-zone{display:none!important;}
+.sacred-orb-wrap{display:none!important;}
 .sacred-orb-svg{width:160px;height:160px;overflow:visible;}
 .orb-ring-1{animation:orbRotate 20s linear infinite;}
 .orb-ring-2{animation:orbRotateReverse 15s linear infinite;}
@@ -1001,6 +1071,417 @@ nav.scrolled{
   width:100%;height:100%;opacity:.7;
 }
 
+/* ══════════════════════════════════════════════════════
+   ENHANCED ANIMATIONS & FIXES
+══════════════════════════════════════════════════════ */
+
+/* ── FIX: Gray → White text in dark/hero sections ── */
+.hero-typewriter-wrap{color:rgba(255,248,230,.98)!important;}
+.hero-spotlight-label{color:rgba(240,190,80,1)!important;}
+.hero-spotlight-feast{color:rgba(240,190,80,.95)!important;}
+.sacred-orb-label{color:rgba(240,200,100,.85)!important;}
+.hero-quote-attr{color:rgba(240,195,90,1)!important;}
+
+/* ── HERO: Glowing gradient border on spotlight card ── */
+@keyframes borderGlow{
+  0%,100%{box-shadow:0 0 20px rgba(200,152,42,.2),0 20px 60px rgba(0,0,0,.4);}
+  50%{box-shadow:0 0 40px rgba(200,152,42,.45),0 20px 60px rgba(0,0,0,.5);}
+}
+.hero-spotlight{animation:borderGlow 4s ease-in-out infinite!important;}
+
+/* ── HERO: Floating holy symbol particles ── */
+@keyframes holyFloat{
+  0%{transform:translateY(100vh) rotate(0deg) scale(.5);opacity:0;}
+  5%{opacity:.5;}
+  85%{opacity:.25;}
+  100%{transform:translateY(-120px) rotate(720deg) scale(.9);opacity:0;}
+}
+.holy-particle{
+  position:absolute;pointer-events:none;z-index:1;
+  font-size:1rem;color:rgba(220,175,80,.5);
+  animation:holyFloat linear infinite;
+}
+
+/* ── COUNTING NUMBERS: Gold pulse at completion ── */
+@keyframes numComplete{
+  0%{text-shadow:none;}
+  50%{text-shadow:0 0 20px rgba(232,192,80,.8),0 0 40px rgba(232,192,80,.4);}
+  100%{text-shadow:none;}
+}
+.hero-stat-num.done{animation:numComplete 1s ease forwards;}
+
+/* ── SECTION TRANSITIONS: Elegant stagger reveal ── */
+@keyframes slideFromLeft{
+  from{opacity:0;transform:translateX(-40px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes slideFromRight{
+  from{opacity:0;transform:translateX(40px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@keyframes scaleIn{
+  from{opacity:0;transform:scale(.9);}
+  to{opacity:1;transform:scale(1);}
+}
+.reveal-from-left{
+  opacity:0;transform:translateX(-40px);
+  transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-from-right{
+  opacity:0;transform:translateX(40px);
+  transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal-from-left.visible,.reveal-from-right.visible{opacity:1;transform:translate(0);}
+
+/* ── HERO BACKGROUND: Animated radial pulse ── */
+@keyframes heroBgPulse{
+  0%,100%{background-size:110% 110%;}
+  50%{background-size:115% 115%;}
+}
+.hero{animation:heroBgPulse 20s ease-in-out infinite;}
+
+/* ── ORB: Enhanced dramatic glow rings ── */
+@keyframes outerRingGlow{
+  0%,100%{stroke-opacity:.08;r:90;}
+  50%{stroke-opacity:.25;r:92;}
+}
+@keyframes innerPulseGlow{
+  0%,100%{fill-opacity:.08;r:18;}
+  50%{fill-opacity:.18;r:20;}
+}
+
+/* ── SHRINE CARDS: Ripple effect on click ── */
+@keyframes ripple{
+  from{transform:scale(0);opacity:.5;}
+  to{transform:scale(4);opacity:0;}
+}
+.shrine-card,.showcase-card{position:relative;overflow:hidden;}
+.ripple-effect{
+  position:absolute;border-radius:50%;
+  width:60px;height:60px;margin:-30px;
+  background:rgba(200,152,42,.25);
+  animation:ripple .6s ease-out forwards;
+  pointer-events:none;z-index:10;
+}
+
+/* ── MARQUEE: Left gradient fade overlay ── */
+.marquee-wrap::before,.marquee-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
+}
+.marquee-wrap::before{left:0;background:linear-gradient(to right,var(--gold),transparent);}
+.marquee-wrap::after{right:0;background:linear-gradient(to left,var(--gold),transparent);}
+
+/* ── APPARITIONS TIMELINE: Enhanced ── */
+@keyframes dotPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,152,42,.5);}
+  50%{box-shadow:0 0 0 8px rgba(200,152,42,0);}
+}
+.apparition-content::before{animation:dotPulse 2.5s ease-in-out infinite;}
+
+/* ── PRAYER CARDS: Diagonal shimmer ── */
+@keyframes diagShimmer{
+  0%{background-position:-200% -200%;}
+  100%{background-position:200% 200%;}
+}
+.prayer-card{
+  background:linear-gradient(135deg,#fff 0%,rgba(253,246,232,.5) 50%,#fff 100%) !important;
+  background-size:200% 200% !important;
+}
+.prayer-card:hover{
+  animation:diagShimmer 1.5s ease forwards;
+}
+
+/* ── HERO STATS: Animated underline ── */
+.hero-stat::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:2px;
+  background:linear-gradient(to right,var(--gold),transparent);
+  transition:width .4s ease;
+}
+.hero-stat:hover::after{width:100%;}
+
+/* ── NAV: Animate active state indicator ── */
+@keyframes navUnderline{from{width:0;opacity:0}to{width:100%;opacity:1}}
+.nav-links a{position:relative;}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+  background:var(--gold);transition:width .3s ease;
+}
+.nav-links a:hover::after{width:100%;}
+
+/* ── QUOTE BANNER: Subtle text glow ── */
+@keyframes quoteGlow{
+  0%,100%{text-shadow:0 2px 20px rgba(200,152,42,.05);}
+  50%{text-shadow:0 2px 40px rgba(200,152,42,.15),0 0 80px rgba(200,152,42,.08);}
+}
+.quote-text{animation:quoteGlow 5s ease-in-out infinite;}
+
+/* ── SCROLL-TRIGGERED STAGGER for shrine cards ── */
+.shrine-card{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .5s ease,transform .5s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;
+}
+.shrine-card.card-visible{opacity:1;transform:translateY(0);}
+.shrine-card:hover{background:#F4F7FC;border-color:rgba(200,152,42,.4);transform:translateY(-5px)!important;z-index:1;}
+
+/* ── FOOTER: Breathing gold bar ── */
+@keyframes breathe{
+  0%,100%{opacity:.6;}
+  50%{opacity:1;}
+}
+.footer-gold-bar{animation:breathe 3s ease-in-out infinite;}
+
+/* ── HERO BACKGROUND: Vignette overlay ── */
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.45) 100%);
+}
+
+/* ── MYSTERY ITEMS: Animated number ── */
+@keyframes mystNum{
+  from{color:rgba(200,152,42,.2);}
+  to{color:rgba(200,152,42,.55);}
+}
+.mystery-panel.active .mystery-item-num{animation:mystNum .5s ease forwards;}
+.mystery-panel.active .mystery-item:nth-child(1) .mystery-item-num{animation-delay:.05s;}
+.mystery-panel.active .mystery-item:nth-child(2) .mystery-item-num{animation-delay:.1s;}
+.mystery-panel.active .mystery-item:nth-child(3) .mystery-item-num{animation-delay:.15s;}
+.mystery-panel.active .mystery-item:nth-child(4) .mystery-item-num{animation-delay:.2s;}
+.mystery-panel.active .mystery-item:nth-child(5) .mystery-item-num{animation-delay:.25s;}
+
+/* ── SHOWCASE CARDS: Gold shimmer border on hover ── */
+@keyframes goldBorderSweep{
+  0%{border-color:rgba(200,152,42,.25);}
+  50%{border-color:rgba(232,192,80,.7);}
+  100%{border-color:rgba(200,152,42,.25);}
+}
+.showcase-card:hover{animation:goldBorderSweep 1.5s ease infinite;}
+
+/* ── FIX: shrine scroll first item padding ── */
+.showcase-track{padding-left:1rem!important;}
+
+/* ── FIX: Visible hero section improvements ── */
+.hero{
+  background:
+    linear-gradient(135deg,rgba(5,2,1,.52) 0%,rgba(10,5,2,.40) 40%,rgba(5,2,1,.55) 100%),
+    url('https://t3.ftcdn.net/jpg/06/99/71/98/360_F_699719833_MUDuuJ0hPrAh7v6pVMu35Mu0cw1zZcWX.jpg') center top/cover no-repeat !important;
+}
+.hero-title{color:#fff!important;}
+
+/* ── INTERACTIVE: Mouse parallax on hero ── */
+.hero-left,.hero-right{transition:transform .1s linear;}
+
+/* ── ANIMATED SECTION LABELS ── */
+@keyframes labelFadeSlide{
+  from{opacity:0;letter-spacing:.5em;}
+  to{opacity:1;letter-spacing:.35em;}
+}
+.sec-label.visible{animation:labelFadeSlide .8s ease forwards;}
+
+/* ── CURSOR ── */
+.cursor-glow{width:40px!important;height:40px!important;}
+
+/* ── v2: EXTRA TEXT VISIBILITY ── */
+.hero-typewriter-wrap{color:rgba(255,248,230,1)!important;font-size:1.28rem!important;}
+.hero-spotlight-label{color:rgba(245,200,90,1)!important;}
+.hero-spotlight-feast{color:rgba(245,200,90,1)!important;}
+.sacred-orb-label{color:rgba(245,210,100,.95)!important;}
+.hero-quote-attr{color:rgba(245,205,100,1)!important;}
+.hero-stat-lbl{color:rgba(225,205,165,.9)!important;}
+.hero-badge{color:rgba(255,230,130,1)!important;background:rgba(200,152,42,.2)!important;border-color:rgba(200,152,42,.55)!important;}
+.hero-title{color:#fff!important;text-shadow:0 2px 30px rgba(0,0,0,.5)!important;}
+.hero-title em{filter:drop-shadow(0 0 22px rgba(200,152,42,.45));}
+
+/* ── v2: HERO stronger overlay + slow zoom ── */
+.hero{
+  background:
+    linear-gradient(160deg,rgba(5,2,1,.60) 0%,rgba(5,2,18,.48) 50%,rgba(5,2,1,.55) 100%),
+    url('https://t3.ftcdn.net/jpg/06/99/71/98/360_F_699719833_MUDuuJ0hPrAh7v6pVMu35Mu0cw1zZcWX.jpg') center top/cover no-repeat !important;
+  animation:heroBgBreath 24s ease-in-out infinite !important;
+}
+@keyframes heroBgBreath{0%,100%{background-size:110% 110%;}50%{background-size:120% 120%;}}
+
+/* ── v2: Hero vignette ── */
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%,transparent 30%,rgba(0,0,0,.6) 100%);
+}
+
+/* ── v2: AURORA blobs ── */
+@keyframes aurora1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(70px,-45px) scale(1.25);}}
+@keyframes aurora2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-55px,35px) scale(1.18);}}
+@keyframes aurora3{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(35px,55px) scale(1.12);}}
+.hero-aurora{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.1;}
+.aurora-blob.a1{width:650px;height:420px;top:-120px;left:-180px;background:radial-gradient(circle,#d4a857,#c8952a);animation:aurora1 20s ease-in-out infinite;}
+.aurora-blob.a2{width:520px;height:360px;bottom:-90px;right:-110px;background:radial-gradient(circle,#8b5e8b,#4a2860);animation:aurora2 25s ease-in-out infinite;}
+.aurora-blob.a3{width:460px;height:310px;top:35%;left:32%;background:radial-gradient(circle,#2a4a9b,#1a2870);animation:aurora3 28s ease-in-out infinite;}
+
+/* ── v2: SPOTLIGHT pulsing glow ── */
+@keyframes spotlightGlow{
+  0%,100%{box-shadow:0 0 20px rgba(200,152,42,.22),0 20px 60px rgba(0,0,0,.5);}
+  50%{box-shadow:0 0 55px rgba(200,152,42,.55),0 30px 80px rgba(0,0,0,.55),inset 0 0 35px rgba(200,152,42,.08);}
+}
+.hero-spotlight{animation:spotlightGlow 5s ease-in-out infinite!important;}
+
+/* ── v2: HOLY PARTICLES ── */
+@keyframes holyFloat{
+  0%{transform:translateY(105vh) rotate(0deg) scale(.4);opacity:0;}
+  6%{opacity:.5;}88%{opacity:.18;}
+  100%{transform:translateY(-80px) rotate(540deg) scale(1);opacity:0;}
+}
+.holy-particle{position:absolute;pointer-events:none;z-index:2;animation:holyFloat linear infinite;color:rgba(220,185,90,.5);font-style:normal;}
+
+/* ── v2: RIPPLE ── */
+@keyframes rippleV2{from{transform:scale(0);opacity:.55;}to{transform:scale(5.5);opacity:0;}}
+.ripple-effect{position:absolute;border-radius:50%;width:50px;height:50px;margin:-25px;background:rgba(200,152,42,.28);animation:rippleV2 .7s ease-out forwards;pointer-events:none;z-index:20;}
+
+/* ── v2: MARQUEE edges + hover ── */
+.marquee-wrap{position:relative!important;display:flex!important;align-items:center!important;height:2.8rem!important;padding:0!important;}
+.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none;}
+.marquee-wrap::before{left:0;background:linear-gradient(to right,#C9922A 40%,transparent);}
+.marquee-wrap::after{right:0;background:linear-gradient(to left,#C9922A 40%,transparent);}
+.marquee-item:hover{color:#fff200!important;letter-spacing:.38em;text-shadow:0 0 20px rgba(255,240,60,.75),0 0 40px rgba(255,200,40,.45);transition:color .2s,letter-spacing .35s,text-shadow .2s;cursor:pointer;}
+
+/* ── v2: SCROLL REVEAL variants ── */
+.reveal-from-left{opacity:0;transform:translateX(-52px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);}
+.reveal-from-right{opacity:0;transform:translateX(52px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);}
+.reveal-from-left.visible,.reveal-from-right.visible{opacity:1;transform:translateX(0);}
+
+/* ── v2: SHRINE CARDS stagger ── */
+.shrine-card{opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .55s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;}
+.shrine-card.card-visible{opacity:1;transform:translateY(0);}
+.shrine-card:hover{background:#F4F7FC;border-color:rgba(200,152,42,.5);transform:translateY(-6px)!important;}
+
+/* ── v2: SHOWCASE breathing gold border ── */
+@keyframes goldBorderBreath{
+  0%,100%{border-color:rgba(200,152,42,.25);box-shadow:0 4px 24px rgba(0,0,0,.09);}
+  50%{border-color:rgba(232,192,80,.8);box-shadow:0 10px 45px rgba(200,152,42,.28);}
+}
+.showcase-card:hover{animation:goldBorderBreath 2s ease-in-out infinite!important;border:1px solid rgba(200,152,42,.5)!important;}
+
+/* ── v2: APPARITION dot rings ── */
+@keyframes apDotRing{0%,100%{box-shadow:0 0 0 0 rgba(200,152,42,.55),0 0 8px rgba(200,152,42,.3);}60%{box-shadow:0 0 0 10px rgba(200,152,42,0),0 0 18px rgba(200,152,42,.15);}}
+.apparition-content::before{animation:apDotRing 3s ease-in-out infinite;background:var(--gold)!important;}
+
+/* ── v2: PRAYER CARD animated shimmer top ── */
+@keyframes prayerTopShimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+.prayer-card::before{background:linear-gradient(90deg,transparent,#e8c060,var(--gold),transparent)!important;background-size:200% 100%!important;animation:prayerTopShimmer 2.8s linear infinite!important;opacity:.9!important;}
+
+/* ── v2: NAV link underline ── */
+.nav-links a{position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .35s ease;}
+.nav-links a:hover::after{width:100%;}
+
+/* ── v2: HERO STAT hover bar ── */
+.hero-stat{position:relative;overflow:hidden;}
+.hero-stat::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(to right,var(--gold),rgba(232,192,80,.4),transparent);transition:width .4s ease;}
+.hero-stat:hover::after{width:100%;}
+
+/* ── v2: QUOTE glow ── */
+@keyframes quoteBreathe{0%,100%{text-shadow:0 2px 20px rgba(0,0,0,.3);}50%{text-shadow:0 2px 50px rgba(200,152,42,.25),0 0 100px rgba(200,152,42,.12);}}
+.quote-text{animation:quoteBreathe 7s ease-in-out infinite;}
+
+/* ── v2: FOOTER bar ── */
+@keyframes barBreath{0%,100%{opacity:.45;}50%{opacity:1;}}
+.footer-gold-bar{animation:barBreath 3.5s ease-in-out infinite;}
+
+/* ── v2: MYSTERY ITEMS stagger ── */
+@keyframes mystItemIn{from{opacity:0;transform:translateX(-18px);}to{opacity:1;transform:translateX(0);}}
+.mystery-panel.active .mystery-item{opacity:0;animation:mystItemIn .45s ease forwards;}
+.mystery-panel.active .mystery-item:nth-child(1){animation-delay:.04s;}
+.mystery-panel.active .mystery-item:nth-child(2){animation-delay:.11s;}
+.mystery-panel.active .mystery-item:nth-child(3){animation-delay:.18s;}
+.mystery-panel.active .mystery-item:nth-child(4){animation-delay:.25s;}
+.mystery-panel.active .mystery-item:nth-child(5){animation-delay:.32s;}
+
+/* ── v2: HERO quote box ── */
+@keyframes quoteBoxGlow{0%,100%{box-shadow:inset 0 0 20px rgba(200,152,42,.03);}50%{box-shadow:inset 0 0 50px rgba(200,152,42,.12),0 0 35px rgba(200,152,42,.07);}}
+.hero-quote-box{animation:quoteBoxGlow 5.5s ease-in-out infinite!important;}
+
+/* ── v2: NUMBER COUNTER flash ── */
+@keyframes numGoldFlash{0%{text-shadow:none;}40%{text-shadow:0 0 28px rgba(232,192,80,.9),0 0 55px rgba(200,152,42,.5);}100%{text-shadow:none;}}
+.hero-stat-num.done{animation:numGoldFlash 1.3s ease forwards;}
+
+/* ── v2: MAGNETIC BUTTON ── */
+.btn-primary,.btn-ghost{position:relative;overflow:hidden;}
+.btn-primary::after,.btn-ghost::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.18) 0%,transparent 65%);opacity:0;transition:opacity .35s;pointer-events:none;}
+.btn-primary:hover::after,.btn-ghost:hover::after{opacity:1;}
+
+/* ── v2: SECTION label ── */
+@keyframes secLabelIn{from{opacity:0;letter-spacing:.55em;}to{opacity:1;letter-spacing:.35em;}}
+.sec-label.revealed{animation:secLabelIn .9s ease forwards;}
+
+/* ── FIX: showcase first-card padding ── */
+.showcase-track{padding-left:1rem!important;}
+
+/* ══════════════════════════════════════════
+   MOBILE HAMBURGER + DRAWER MENU
+══════════════════════════════════════════ */
+.nav-hamburger{
+  display:none;flex-direction:column;justify-content:space-between;
+  width:30px;height:20px;background:transparent;border:none;cursor:pointer;
+  padding:0;z-index:300;
+}
+.nav-hamburger span{
+  display:block;height:2px;width:100%;background:var(--gold);
+  border-radius:2px;transition:all .3s ease;transform-origin:center;
+}
+.nav-hamburger.open span:nth-child(1){transform:translateY(9px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}
+
+.mobile-menu-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:400;
+  backdrop-filter:blur(3px);
+}
+.mobile-menu-overlay.open{display:block;}
+
+.mobile-menu-drawer{
+  position:fixed;top:0;right:-100%;width:min(300px,85vw);height:100%;
+  background:linear-gradient(160deg,#1a1208 0%,#0d0903 100%);
+  border-left:1px solid rgba(200,152,42,.3);
+  z-index:500;transition:right .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow-y:auto;
+  box-shadow:-8px 0 40px rgba(0,0,0,.5);
+}
+.mobile-menu-drawer.open{right:0;}
+
+.mobile-menu-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 1.4rem;border-bottom:1px solid rgba(200,152,42,.2);
+}
+.mobile-menu-brand{
+  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.12em;color:var(--gold);
+}
+.mobile-menu-close{
+  background:transparent;border:1px solid rgba(200,152,42,.3);color:var(--gold);
+  width:32px;height:32px;font-size:.9rem;cursor:pointer;transition:all .2s;
+}
+.mobile-menu-close:hover{background:rgba(200,152,42,.15);}
+
+.mobile-menu-links{list-style:none;padding:1rem 0;flex:1;}
+.mobile-menu-links li{border-bottom:1px solid rgba(200,152,42,.1);}
+.mobile-menu-links a{
+  display:block;padding:1rem 1.6rem;
+  font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.18em;
+  color:rgba(240,220,185,.85);text-transform:uppercase;cursor:pointer;
+  transition:all .2s;
+}
+.mobile-menu-links a:hover{
+  background:rgba(200,152,42,.1);color:var(--gold);padding-left:2rem;
+}
+
+.mobile-menu-footer{
+  padding:1.2rem 1.6rem;
+  font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.3em;
+  color:rgba(200,152,42,.4);text-transform:uppercase;text-align:center;
+  border-top:1px solid rgba(200,152,42,.15);
+}
+
+@media(max-width:768px){
+  .nav-hamburger{display:flex;}
+}
+
 </style>
 </head>
 <body>
@@ -1038,9 +1519,30 @@ nav.scrolled{
         </div>
       </div>
       <a class="nav-back" id="navBack" onclick="goBack()">← <span data-i18n="nav_back_shrines">Back to Shrines</span></a>
+      <!-- Mobile hamburger -->
+      <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+
+<!-- Mobile Menu Drawer -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+<div class="mobile-menu-drawer" id="mobileMenuDrawer">
+  <div class="mobile-menu-header">
+    <span class="mobile-menu-brand">✦ Mother Mary World</span>
+    <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+  </div>
+  <ul class="mobile-menu-links">
+    <li><a onclick="showPage('home');closeMobileMenu();" data-i18n="nav_home">🏠 Home</a></li>
+    <li><a onclick="showPage('shrines');closeMobileMenu();" data-i18n="nav_shrines">⛪ Shrines</a></li>
+    <li><a onclick="showPage('prayers');closeMobileMenu();" data-i18n="nav_prayers">🙏 Prayers</a></li>
+    <li><a onclick="showPage('apparitions');closeMobileMenu();" data-i18n="nav_apparitions">✨ Apparitions</a></li>
+    <li><a onclick="showPage('daily');closeMobileMenu();" data-i18n="nav_daily">📿 Daily Devotion</a></li>
+  </ul>
+  <div class="mobile-menu-footer">Ave Maria · Totus Tuus</div>
+</div>
 
 <!-- ══════════════ HOME PAGE ══════════════ -->
 <div class="page active" id="page-home">
@@ -1098,50 +1600,7 @@ nav.scrolled{
     <div class="hero-right">
 
       <!-- Sacred Orb — replaces candle -->
-      <div class="hero-sacred-orb-zone">
-        <div class="sacred-orb-wrap">
-          <svg class="sacred-orb-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer glow rings -->
-            <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(200,150,60,.08)" stroke-width="1" class="orb-ring orb-ring-1"/>
-            <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(200,150,60,.12)" stroke-width=".8" class="orb-ring orb-ring-2"/>
-            <circle cx="100" cy="100" r="66" fill="none" stroke="rgba(200,150,60,.18)" stroke-width=".7" class="orb-ring orb-ring-3"/>
-            <!-- Geometric petals -->
-            <g class="orb-petals">
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.18)" transform="rotate(0 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.18)" transform="rotate(45 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.18)" transform="rotate(90 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.18)" transform="rotate(135 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.12)" transform="rotate(22.5 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.12)" transform="rotate(67.5 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.12)" transform="rotate(112.5 100 100)"/>
-              <ellipse cx="100" cy="68" rx="8" ry="22" fill="rgba(220,170,60,.12)" transform="rotate(157.5 100 100)"/>
-            </g>
-            <!-- Star points -->
-            <g class="orb-star">
-              <line x1="100" y1="40" x2="100" y2="160" stroke="rgba(220,170,60,.15)" stroke-width=".7"/>
-              <line x1="40" y1="100" x2="160" y2="100" stroke="rgba(220,170,60,.15)" stroke-width=".7"/>
-              <line x1="58" y1="58" x2="142" y2="142" stroke="rgba(220,170,60,.1)" stroke-width=".6"/>
-              <line x1="142" y1="58" x2="58" y2="142" stroke="rgba(220,170,60,.1)" stroke-width=".6"/>
-            </g>
-            <!-- Inner radiance -->
-            <circle cx="100" cy="100" r="36" fill="radial-gradient(circle, rgba(220,170,60,.25), transparent 70%)" class="orb-core-glow"/>
-            <circle cx="100" cy="100" r="36" fill="none" stroke="rgba(220,170,60,.35)" stroke-width="1" class="orb-inner"/>
-            <!-- Core -->
-            <circle cx="100" cy="100" r="18" fill="rgba(220,170,60,.08)" stroke="rgba(230,190,80,.5)" stroke-width="1.2" class="orb-center"/>
-            <!-- Monogram M -->
-            <text x="100" y="105" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="16" fill="rgba(230,195,90,.8)" font-style="italic">M</text>
-            <!-- Sparkle dots -->
-            <circle cx="100" cy="40" r="2" fill="rgba(240,200,80,.7)" class="orb-sparkle s1"/>
-            <circle cx="156" cy="68" r="1.5" fill="rgba(240,200,80,.6)" class="orb-sparkle s2"/>
-            <circle cx="156" cy="132" r="2" fill="rgba(240,200,80,.7)" class="orb-sparkle s3"/>
-            <circle cx="100" cy="160" r="1.5" fill="rgba(240,200,80,.5)" class="orb-sparkle s4"/>
-            <circle cx="44" cy="132" r="2" fill="rgba(240,200,80,.7)" class="orb-sparkle s5"/>
-            <circle cx="44" cy="68" r="1.5" fill="rgba(240,200,80,.6)" class="orb-sparkle s6"/>
-          </svg>
-          <div class="sacred-orb-glow"></div>
-        </div>
-        <p class="sacred-orb-label">✦ &nbsp; Totus Tuus &nbsp; ✦</p>
-      </div>
+      
 
       <!-- Shrine Spotlight Card -->
       <div class="hero-spotlight">
@@ -1207,8 +1666,8 @@ nav.scrolled{
   </div>
 
   <div class="quote-banner reveal">
-    <p class="quote-text" data-i18n="quote_text">"No one meditates more on the Gospel than Mary. No one understands the mystery of Christ better than she."</p>
-    <p class="quote-attr" data-i18n="quote_attr">— Pope Saint John Paul II</p>
+    <p class="quote-text" id="bannerQuoteText">"No one meditates more on the Gospel than Mary. No one understands the mystery of Christ better than she."</p>
+    <p class="quote-attr" id="bannerQuoteAttr">— Pope Saint John Paul II</p>
   </div>
 
   <!-- ══ SHRINE SLIDESHOW SECTION ══ -->
@@ -6581,6 +7040,334 @@ function closePayModal(){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePayModal();});
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   ENHANCED INTERACTIONS v2
+══════════════════════════════════════════════════════ */
+
+/* ── 1. Inject Aurora Blobs into hero ── */
+(function injectAurora(){
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+  var aur = document.createElement('div');
+  aur.className = 'hero-aurora';
+  aur.innerHTML = '<div class="aurora-blob a1"></div><div class="aurora-blob a2"></div><div class="aurora-blob a3"></div>';
+  hero.insertBefore(aur, hero.firstChild);
+})();
+
+/* ── 2. Holy floating particles (cross, star symbols) ── */
+(function spawnParticles(){
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+  var symbols = ['✦','✝','☩','⁕','✶','⊕','✙','✤'];
+  for(var i = 0; i < 14; i++){
+    (function(idx){
+      setTimeout(function(){
+        var p = document.createElement('div');
+        p.className = 'holy-particle';
+        p.textContent = symbols[idx % symbols.length];
+        p.style.left = (5 + Math.random() * 90) + '%';
+        p.style.animationDuration = (13 + Math.random() * 14) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        p.style.fontSize = (0.6 + Math.random() * 0.9) + 'rem';
+        p.style.opacity = '0';
+        hero.appendChild(p);
+      }, idx * 700);
+    })(i);
+  }
+})();
+
+/* ── 3. Mouse parallax on hero panels ── */
+(function heroParallax(){
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+  var heroLeft = document.querySelector('.hero-left');
+  var heroRight = document.querySelector('.hero-right');
+  if(heroLeft) heroLeft.style.transition = 'transform .15s linear';
+  if(heroRight) heroRight.style.transition = 'transform .15s linear';
+  document.addEventListener('mousemove', function(e){
+    if(!document.getElementById('page-home').classList.contains('active')) return;
+    var cx = window.innerWidth/2, cy = window.innerHeight/2;
+    var dx = (e.clientX-cx)/cx, dy = (e.clientY-cy)/cy;
+    if(heroLeft)  heroLeft.style.transform  = 'translate('+(dx*-7)+'px,'+(dy*-5)+'px)';
+    if(heroRight) heroRight.style.transform = 'translate('+(dx*9)+'px,'+(dy*6)+'px)';
+  });
+})();
+
+/* ── 4. Ripple on card click ── */
+document.addEventListener('click', function(e){
+  var card = e.target.closest('.shrine-card, .showcase-card');
+  if(!card) return;
+  var rect = card.getBoundingClientRect();
+  var r = document.createElement('span');
+  r.className = 'ripple-effect';
+  r.style.left = (e.clientX - rect.left) + 'px';
+  r.style.top  = (e.clientY - rect.top)  + 'px';
+  card.appendChild(r);
+  setTimeout(function(){ if(r.parentNode) r.parentNode.removeChild(r); }, 800);
+});
+
+/* ── 5. Stagger shrine card reveal via IntersectionObserver ── */
+function observeShrineCards(){
+  var cards = document.querySelectorAll('.shrine-card:not(.card-visible)');
+  if(!cards.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      var siblings = Array.from(entry.target.parentNode.children);
+      var idx = siblings.indexOf(entry.target) % 6;
+      setTimeout(function(){ entry.target.classList.add('card-visible'); }, idx * 65);
+      io.unobserve(entry.target);
+    });
+  },{threshold:.07, rootMargin:'0px 0px -30px 0px'});
+  cards.forEach(function(c){ io.observe(c); });
+}
+
+/* Hook into showPage to re-trigger on shrine page */
+var _origShowPage = window.showPage;
+window.showPage = function(id, extra){
+  _origShowPage && _origShowPage(id, extra);
+  if(id === 'shrines') setTimeout(observeShrineCards, 350);
+};
+setTimeout(observeShrineCards, 600);
+
+/* ── 6. Apparition items: alternating slide-in ── */
+(function apparitionReveal(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); io.unobserve(entry.target); }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.apparition-item').forEach(function(el, i){
+    el.classList.add(i%2===0 ? 'reveal-from-left' : 'reveal-from-right');
+    io.observe(el);
+  });
+})();
+
+/* ── 7. Section label expand-letter reveal ── */
+(function secLabelReveal(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('revealed'); io.unobserve(entry.target); }
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.sec-label').forEach(function(el){ io.observe(el); });
+})();
+
+/* ── 8. Magnetic button spotlight ── */
+document.querySelectorAll('.btn-primary, .btn-ghost').forEach(function(btn){
+  btn.addEventListener('mousemove', function(e){
+    var r = btn.getBoundingClientRect();
+    btn.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+    btn.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+  });
+});
+
+/* ── 9. Animated stat counters with gold flash ── */
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    document.querySelectorAll('.hero-stat-num[data-count]').forEach(function(el){
+      var target = parseInt(el.dataset.count);
+      var start = null, dur = 1900;
+      function step(ts){
+        if(!start) start = ts;
+        var p = Math.min((ts-start)/dur, 1);
+        var eased = 1 - Math.pow(1-p, 3);
+        el.textContent = Math.round(eased * target);
+        if(p < 1){ requestAnimationFrame(step); }
+        else{ el.textContent = target; el.classList.add('done'); }
+      }
+      requestAnimationFrame(step);
+    });
+  }, 950);
+});
+
+/* ── 10. Showcase cards: also reveal on intersection ── */
+(function showcaseReveal(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.08});
+  setTimeout(function(){
+    document.querySelectorAll('.showcase-card').forEach(function(c,i){
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(20px)';
+      c.style.transition = 'opacity .5s ease '+(i%4*.08)+'s, transform .5s ease '+(i%4*.08)+'s, box-shadow .25s, border-color .25s';
+      io.observe(c);
+    });
+  }, 500);
+})();
+</script>
+<script>
+/* ── MOBILE HAMBURGER MENU ── */
+function toggleMobileMenu(){
+  var btn = document.getElementById('navHamburger');
+  var drawer = document.getElementById('mobileMenuDrawer');
+  var overlay = document.getElementById('mobileMenuOverlay');
+  var isOpen = drawer.classList.contains('open');
+  if(isOpen){ closeMobileMenu(); }
+  else {
+    btn.classList.add('open');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeMobileMenu(){
+  document.getElementById('navHamburger').classList.remove('open');
+  document.getElementById('mobileMenuDrawer').classList.remove('open');
+  document.getElementById('mobileMenuOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+
+<script>
+/* ── HERO BACKGROUND: Mother Mary Image Loader ──
+   Tries multiple public-domain sources in order. Falls back to a sacred gradient.
+*/
+(function loadHeroBg(){
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+
+  // Public domain paintings of Our Lady - multiple CDN fallbacks
+  var sources = [
+    // Our Lady of Grace painting - Web Gallery of Art (no hotlink protection)
+    'https://www.wga.hu/art/r/raphael/4stanze/1segnatu/3.jpg',
+    // Met Museum open access - The Annunciation
+    'https://images.metmuseum.org/CRDImages/ep/original/DP-14514-001.jpg',
+    // Google Arts & Culture served image - public domain Madonna
+    'https://upload.wikimedia.org/wikipedia/commons/1/1f/Murillo_-_Inmaculada_Concepci%C3%B3n_del_Escorial.jpg',
+    // Assumption of the Virgin by Murillo - public domain
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bartolom%C3%A9_Esteban_Murillo_-_The_Immaculate_Conception_of_Los_Venerables.jpg/800px-Bartolom%C3%A9_Esteban_Murillo_-_The_Immaculate_Conception_of_Los_Venerables.jpg',
+  ];
+
+  function trySource(idx){
+    if(idx >= sources.length){
+      // All failed - apply beautiful sacred gradient fallback
+      applyGradientFallback();
+      return;
+    }
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function(){
+      setHeroBg(sources[idx]);
+    };
+    img.onerror = function(){
+      trySource(idx + 1);
+    };
+    // Short timeout to avoid long waits
+    var timer = setTimeout(function(){ trySource(idx + 1); }, 4000);
+    img.onload = function(){
+      clearTimeout(timer);
+      setHeroBg(sources[idx]);
+    };
+    img.src = sources[idx];
+  }
+
+  function setHeroBg(url){
+    var overlay = 'linear-gradient(160deg,rgba(5,2,1,.60) 0%,rgba(5,2,18,.48) 50%,rgba(5,2,1,.55) 100%)';
+    hero.style.backgroundImage = overlay + ', url(' + url + ')';
+    hero.style.backgroundSize = 'cover';
+    hero.style.backgroundPosition = 'center top';
+    hero.style.backgroundRepeat = 'no-repeat';
+    // Also update quote-banner if it exists
+    var qb = document.querySelector('.quote-banner');
+    if(qb){
+      qb.style.backgroundImage = 'linear-gradient(rgba(15,8,2,.80),rgba(15,8,2,.75)), url(' + url + ')';
+      qb.style.backgroundSize = 'cover';
+      qb.style.backgroundPosition = 'center';
+    }
+  }
+
+  function applyGradientFallback(){
+    // Beautiful sacred blue/gold gradient evoking Mary's mantle
+    hero.style.background = 'linear-gradient(160deg,#0a0619 0%,#1a0d2e 25%,#0d1a3a 50%,#1a0a08 75%,#0a0619 100%)';
+    // Add a subtle radial glow in the center
+    hero.style.backgroundImage = [
+      'radial-gradient(ellipse 60% 80% at 50% 40%, rgba(200,152,42,.18) 0%, transparent 65%)',
+      'radial-gradient(ellipse 100% 60% at 50% 100%, rgba(30,15,60,.8) 0%, transparent 70%)',
+      'linear-gradient(160deg,#0a0619 0%,#1a0d2e 25%,#0d1a3a 50%,#1a0a08 75%,#0a0619 100%)'
+    ].join(',');
+  }
+
+  trySource(0);
+})();
+</script>
+
+
+<script>
+/* ══════════════════════════════════════════
+   QUOTE BANNER ROTATOR — Marian Wisdom
+   Rotates every 7 seconds with fade transition
+══════════════════════════════════════════ */
+(function initBannerRotator() {
+  var bannerQuotes = [
+    { text: '"No one meditates more on the Gospel than Mary. No one understands the mystery of Christ better than she."', attr: '— Pope Saint John Paul II' },
+    { text: '"Never be afraid of loving the Blessed Virgin too much. You can never love her more than Jesus did."', attr: '— Saint Maximilian Kolbe' },
+    { text: '"To Jesus through Mary — this is the royal road that leads to the King of kings."', attr: '— Saint Louis de Montfort' },
+    { text: '"She is the Mother of mercy, our life, our sweetness, and our hope. To her we cry, the banished children of Eve."', attr: '— Salve Regina, 11th Century' },
+    { text: '"Am I not here, I who am your Mother? Are you not under my shadow and protection?"', attr: '— Our Lady of Guadalupe to Juan Diego, 1531' },
+    { text: '"The Rosary is the most excellent form of prayer and the most efficacious means of attaining eternal life."', attr: '— Pope Leo XIII' },
+    { text: '"Mary kept all these things, reflecting on them in her heart."', attr: '— Luke 2:19' },
+    { text: '"Do whatever He tells you."', attr: '— The Virgin Mary at Cana, John 2:5' },
+    { text: '"My soul proclaims the greatness of the Lord; my spirit rejoices in God my Saviour."', attr: '— The Magnificat, Luke 1:46-47' },
+    { text: '"I am the Immaculate Conception."', attr: '— Our Lady of Lourdes to Saint Bernadette, 1858' },
+    { text: '"Pray, pray very much, and make sacrifices for sinners; for many souls go to Hell because there are none to sacrifice themselves and to pray for them."', attr: '— Our Lady of Fátima, 1917' },
+    { text: '"A man is never so tall as when he kneels before the Madonna."', attr: '— Saint Bernard of Clairvaux' },
+    { text: '"Turn your eyes to Mary whenever you feel doubtful or troubled. Think of Mary, call to Mary, keep Mary in your thoughts."', attr: '— Saint Bernard of Clairvaux' },
+    { text: '"Mary is the Mediatrix of all grace. She obtained for us sanctifying grace at the Annunciation; she merits for us the graces we need."', attr: '— Pope Benedict XV' },
+    { text: '"The love of Mary is a staircase going up to the love of Christ."', attr: '— Saint Thomas Aquinas' },
+  ];
+
+  var textEl = document.getElementById('bannerQuoteText');
+  var attrEl = document.getElementById('bannerQuoteAttr');
+  var banner = textEl && textEl.closest('.quote-banner');
+
+  if (!textEl || !attrEl) return;
+
+  // Start at a random quote
+  var idx = Math.floor(Math.random() * bannerQuotes.length);
+
+  function showQuote(i) {
+    // Fade out
+    textEl.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    attrEl.style.transition = 'opacity 0.7s ease';
+    textEl.style.opacity = '0';
+    textEl.style.transform = 'translateY(10px)';
+    attrEl.style.opacity = '0';
+
+    setTimeout(function() {
+      textEl.textContent = bannerQuotes[i].text;
+      attrEl.textContent = bannerQuotes[i].attr;
+      // Fade in
+      textEl.style.opacity = '1';
+      textEl.style.transform = 'translateY(0)';
+      attrEl.style.opacity = '1';
+    }, 700);
+  }
+
+  // Set initial styles for animation
+  textEl.style.opacity = '1';
+  attrEl.style.opacity = '1';
+  textEl.style.transform = 'translateY(0)';
+
+  // Set first quote
+  textEl.textContent = bannerQuotes[idx].text;
+  attrEl.textContent = bannerQuotes[idx].attr;
+
+  // Rotate every 7 seconds
+  setInterval(function() {
+    idx = (idx + 1) % bannerQuotes.length;
+    showQuote(idx);
+  }, 7000);
+})();
 </script>
 
 </body>
